@@ -57,7 +57,7 @@ namespace foo
 			try
 			{
 				using (var a = MD5CryptoServiceProvider.Create ()) {
-					var hash = a.ComputeHash (Text);
+					var hash = a.ComputeHash (System.Text.Encoding.ASCII.GetBytes (Text));
 					textView.Text = "OK";
 				}
 			} catch (Exception ex)
