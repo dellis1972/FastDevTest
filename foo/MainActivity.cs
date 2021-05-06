@@ -7,6 +7,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using diag = System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace foo
 {
@@ -49,19 +50,16 @@ namespace foo
 			return base.OnOptionsItemSelected(item);
 		}
 
+		static string Text = @"The quick brown fox jumped over the lazy dog.";
+
 		private void FabOnClick(object sender, EventArgs eventArgs)
 		{
-			var process = new diag.Process();
-			process.StartInfo.FileName = "pwd";
-			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
 			try
 			{
-				process.Start();
-			
-				textView.Text = process.StandardOutput.ReadToEnd();
-				process.WaitForExit();
+				using (var a = MD5CryptoServiceProvider.Create ()) {
+					var hash = a.ComputeHash (Text);
+					textView.Text = "OK";
+				}
 			} catch (Exception ex)
 			{
 				textView.Text = "ERROR!";
